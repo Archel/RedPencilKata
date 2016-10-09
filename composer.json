@@ -23,12 +23,12 @@
   },
   "autoload": {
     "psr-4": {
-      "RedPencilKata\\": "src/"
+      "Archel\\RedPencilKata\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "RedPencilKata\\": "tests/"
+      "Archel\\RedPencilKata\\": "tests/"
     }
   },
   "scripts" : {
