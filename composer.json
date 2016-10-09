@@ -1,0 +1,37 @@
+{
+  "name" : "archel/red-pencil-kata",
+  "description" : "PHP red pencil kata",
+  "keywords" : [
+    "Kata",
+    "TDD",
+    "PHP",
+    "Red Pencil Kata"
+  ],
+  "license" : "MIT",
+  "authors" : [
+    {
+      "name" : "Daniel Jordi Pérez",
+      "email" : "danipq26@gmail.com"
+    }
+  ],
+  "require" : {
+    "php" : "^7.0",
+    "phpunit/phpunit": "^5.0"
+  },
+  "config": {
+    "optimize-autoloader": true
+  },
+  "autoload": {
+    "psr-4": {
+      "RedPencilKata\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RedPencilKata\\": "tests/"
+    }
+  },
+  "scripts" : {
+    "phpunit": "phpunit --configuration phpunit.xml"
+  }
+}

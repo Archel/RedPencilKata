@@ -1,0 +1,11 @@
+<phpunit
+        bootstrap="vendor/autoload.php"
+        beStrictAboutOutputDuringTests="true"
+        beStrictAboutTestSize="true"
+        beStrictAboutChangesToGlobalState="true">
+    <testsuites>
+        <testsuite name="redPencilKata">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
