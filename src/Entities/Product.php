@@ -1,7 +1,6 @@
 <?php
 
 namespace Archel\RedPencilKata\Entities;
-use Archel\RedPencilKata\Factories\PriceReductionFactory;
 
 /**
  * Class Product
