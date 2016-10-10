@@ -3,7 +3,7 @@
 namespace Archel\RedPencilKata\Tests;
 
 use Archel\RedPencilKata\Entities\Product;
-use Archel\RedPencilKata\Provider\DateTimeProvider;
+use Archel\RedPencilKata\Factories\ProductFactory;
 use Archel\RedPencilKata\Services\Interfaces\PriceCalculator;
 use Archel\RedPencilKata\Services\PromotionPriceCalculator;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,8 @@ class ProductTest extends TestCase
 
     public function setUp()
     {
-        $this->product = new Product(3, new DateTimeProvider());
+        $productFactory = new ProductFactory();
+        $this->product = $productFactory->make(3);
         $this->priceCalculator = new PromotionPriceCalculator();
     }
 

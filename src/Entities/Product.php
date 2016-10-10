@@ -1,7 +1,7 @@
 <?php
 
 namespace Archel\RedPencilKata\Entities;
-use Archel\RedPencilKata\Provider\Interfaces\DateProvider;
+use Archel\RedPencilKata\Factories\PriceReductionFactory;
 
 /**
  * Class Product
@@ -20,37 +20,25 @@ class Product
     protected $pricesReduction;
 
     /**
-     * @var \DateTime|null
-     */
-    protected $lastPriceUpdate;
-
-    /**
-     * @var DateProvider
-     */
-    protected $dateProvider;
-
-    /**
      * Product constructor.
      * @param float $price
-     * @param DateProvider $dateProvider
      */
-    public function __construct(float $price, DateProvider $dateProvider) {
+    public function __construct(float $price) {
         $this->price = $price;
         $this->pricesReduction = [];
-        $this->lastPriceUpdate = null;
-        $this->dateProvider = $dateProvider;
     }
 
     /**
      * @return float
      */
-    public function price()
+    public function price() : float
     {
         return $this->price;
     }
 
     /**
      * @param float $priceReductionPercent
+     * @throws \InvalidArgumentException
      */
     public function addPriceReduction(float $priceReductionPercent)
     {
@@ -58,15 +46,11 @@ class Product
             throw new \InvalidArgumentException('This value can\'t be greater than 100');
         }
 
-        $this->lastPriceUpdate = $this->dateProvider->now();
-
-        $this->pricesReduction[] = [
-            'percent' => $priceReductionPercent,
-            'date' => $this->dateProvider->now()
-        ];
+        $priceReductionFactory = new PriceReductionFactory();
+        $this->pricesReduction[] = $priceReductionFactory->make($priceReductionPercent);
     }
 
-    public function priceReductions()
+    public function priceReductions() : array
     {
         if(count($this->pricesReduction) === 0) {
             return null;
