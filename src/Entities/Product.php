@@ -50,6 +50,9 @@ class Product
         $this->pricesReduction[] = $priceReductionFactory->make($priceReductionPercent);
     }
 
+    /**
+     * @return array
+     */
     public function priceReductions() : array
     {
         if(count($this->pricesReduction) === 0) {

@@ -29,4 +29,14 @@ class PriceReduction
         $this->percent = $percent;
         $this->applyDate = $applyDate;
     }
+
+    public function percent() : float
+    {
+        return $this->percent;
+    }
+
+    public function applyDate() : \DateTimeInterface
+    {
+        return $this->applyDate;
+    }
 }
