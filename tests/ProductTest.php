@@ -3,6 +3,7 @@
 namespace Archel\RedPencilKata\Tests;
 
 use Archel\RedPencilKata\Entities\Product;
+use Archel\RedPencilKata\Factories\PriceReductionFactory;
 use Archel\RedPencilKata\Factories\ProductFactory;
 use Archel\RedPencilKata\Services\Interfaces\PriceCalculator;
 use Archel\RedPencilKata\Services\PromotionPriceCalculator;
@@ -44,7 +45,9 @@ class ProductTest extends TestCase
      */
     public function productPriceWithReduction()
     {
-        $this->product->addPriceReduction(20);
+        $priceReductionFactory = new PriceReductionFactory();
+        $priceReduction = $priceReductionFactory->make(20);
+        $this->product->addPriceReduction($priceReduction);
 
         $this->assertEquals($this->priceCalculator->calculate($this->product), 2.50);
     }

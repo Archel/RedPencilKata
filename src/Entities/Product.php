@@ -37,17 +37,16 @@ class Product
     }
 
     /**
-     * @param float $priceReductionPercent
+     * @param PriceReduction $priceReduction
      * @throws \InvalidArgumentException
      */
-    public function addPriceReduction(float $priceReductionPercent)
+    public function addPriceReduction(PriceReduction $priceReduction)
     {
-        if($priceReductionPercent > 100) {
+        if($priceReduction->percent() > 100) {
             throw new \InvalidArgumentException('This value can\'t be greater than 100');
         }
 
-        $priceReductionFactory = new PriceReductionFactory();
-        $this->pricesReduction[] = $priceReductionFactory->make($priceReductionPercent);
+        $this->pricesReduction[] = $priceReduction;
     }
 
     /**
