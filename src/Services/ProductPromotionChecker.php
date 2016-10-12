@@ -62,7 +62,7 @@ class ProductPromotionChecker implements PromotionChecker
         $percent = (abs($price - $product->price()) / $price) * 100;
 
         $days = $now->diff($date)->format("%a");
-        
+
         if($percent >= static::MIN_PERCENT && $percent <= self::MAX_PERCENT && $days >= self::DAYS_FOR_STABLE_PRICE) {
             return true;
         }
