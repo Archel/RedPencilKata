@@ -3,6 +3,7 @@
 namespace Archel\RedPencilKata\Services;
 
 
+use Archel\RedPencilKata\Entities\Product;
 use Archel\RedPencilKata\Provider\Interfaces\DateProvider;
 use Archel\RedPencilKata\Services\Interfaces\PromotionChecker;
 
@@ -37,9 +38,10 @@ class ProductPromotionChecker implements PromotionChecker
     }
 
     /**
+     * @param Product $product
      * @return bool
      */
-    public function isPromoted() : bool
+    public function isPromoted(Product $product) : bool
     {
         // TODO: Implement isPromoted() method.
     }

@@ -1,6 +1,7 @@
 <?php
 
 namespace Archel\RedPencilKata\Services\Interfaces;
+use Archel\RedPencilKata\Entities\Product;
 
 /**
  * Class PromotionChecker
@@ -12,5 +13,5 @@ interface PromotionChecker
     /**
      * @return bool
      */
-    public function isPromoted() : bool;
+    public function isPromoted(Product $product) : bool;
 }

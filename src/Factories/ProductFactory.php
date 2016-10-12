@@ -2,23 +2,25 @@
 
 namespace Archel\RedPencilKata\Factories;
 
+use Archel\RedPencilKata\Entities\Interfaces\Goods;
 use Archel\RedPencilKata\Entities\Product;
 use Archel\RedPencilKata\Provider\DateTimeProvider;
 
 /**
  * Class ProductFactory
  *
- * @author Daniel J. Pérez <danieljordi@bab-soft.com>
  * @package Archel\RedPencilKata\Factories
  */
-class ProductFactory
+class ProductFactory implements GoodsFactory
 {
     /**
+     * @param string $name
      * @param float $price
-     * @return Product
+     * @return Goods
      */
-    public function make(float $price) : Product
+    public function make(string $name, float $price) : Goods
     {
-        return new Product($price);
+        $dateProvider = new DateTimeProvider();
+        return new Product($name, $price, $dateProvider);
     }
 }

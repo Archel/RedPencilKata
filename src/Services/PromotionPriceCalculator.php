@@ -21,12 +21,6 @@ class PromotionPriceCalculator implements PriceCalculator
     {
         $price = $product->price();
 
-        if($priceReductions = $product->priceReductions()) {
-            foreach($priceReductions as $priceReduction) {
-                $price = $price / (1 + ($priceReduction->percent() / 100));
-            }
-        }
-
         return round($price, 2);
     }
 }

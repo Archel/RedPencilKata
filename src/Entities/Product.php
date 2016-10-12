@@ -2,12 +2,20 @@
 
 namespace Archel\RedPencilKata\Entities;
 
+use Archel\RedPencilKata\Entities\Interfaces\Goods;
+use Archel\RedPencilKata\Provider\Interfaces\DateProvider;
+
 /**
  * Class Product
  * @package Archel\RedPencilKata
  */
-class Product
+class Product implements Goods
 {
+    /**
+     * @var string
+     */
+    protected $name;
+
     /**
      * @var float
      */
@@ -16,15 +24,25 @@ class Product
     /**
      * @var array
      */
-    protected $pricesReduction;
+    protected $priceHistory;
+
+    /**
+     * @var DateProvider
+     */
+    protected $dateProvider;
+
 
     /**
      * Product constructor.
+     * @param string $name
      * @param float $price
+     * @param DateProvider $dateProvider
      */
-    public function __construct(float $price) {
+    public function __construct(string $name, float $price, DateProvider $dateProvider) {
         $this->price = $price;
-        $this->pricesReduction = [];
+        $this->name = $name;
+        $this->priceHistory = [];
+        $this->dateProvider = $dateProvider;
     }
 
     /**
@@ -36,27 +54,36 @@ class Product
     }
 
     /**
-     * @param PriceReduction $priceReduction
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function addPriceReduction(PriceReduction $priceReduction)
+    public function name() : string
     {
-        if($priceReduction->percent() > 100) {
-            throw new \InvalidArgumentException('This value can\'t be greater than 100');
+        return $this->name;
+    }
+
+    /**
+     * @param float $price
+     * @return $this
+     */
+    public function changePrice(float $price)
+    {
+        if($price <= 0) {
+            throw new \InvalidArgumentException('This value can\'t be lower than 0');
         }
 
-        $this->pricesReduction[] = $priceReduction;
+        $type = $this->price < $price ? PriceChange::RISE : PriceChange::REDUCE;
+        $this->priceHistory[] = new PriceChange($this->price(), $this->dateProvider->now(), $type);
+
+        $this->price = $price;
+
+        return $this;
     }
 
     /**
      * @return array
      */
-    public function priceReductions() : array
+    public function priceHistory() : array
     {
-        if(count($this->pricesReduction) === 0) {
-            return null;
-        }
-
-        return $this->pricesReduction;
+        return $this->priceHistory;
     }
 }
