@@ -10,7 +10,6 @@ use Archel\RedPencilKata\Services\Interfaces\PromotionChecker;
 /**
  * Class ProductPromotionChecker
  *
- * @author Daniel J. Pérez <danieljordi@bab-soft.com>
  * @package Archel\RedPencilKata\Services
  */
 class ProductPromotionChecker implements PromotionChecker
@@ -43,6 +42,13 @@ class ProductPromotionChecker implements PromotionChecker
      */
     public function isPromoted(Product $product) : bool
     {
-        // TODO: Implement isPromoted() method.
+        $priceHistory = $product->priceHistory();
+        $lastPriceChange = current($priceHistory);
+
+        if(!empty($lastPriceChange)) {
+            $date = $lastPriceChange->applyDate();
+            $type = $lastPriceChange->type();
+            $price = $lastPriceChange->price();
+        }
     }
 }
