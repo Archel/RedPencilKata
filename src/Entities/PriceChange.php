@@ -33,31 +33,40 @@ class PriceChange
 
     /**
      * PriceReduction constructor.
-     * @param float $percent
+     * @param float $price
      * @param \DateTimeInterface $applyDate
      * @param integer $type
      */
-    public function __construct(float $percent, \DateTimeInterface $applyDate, int $type)
+    public function __construct(float $price, \DateTimeInterface $applyDate, int $type)
     {
         if(!in_array($type, [self::RISE, self::REDUCE])) {
             throw new \InvalidArgumentException('Type not valid');
         }
 
-        $this->percent = $percent;
+        $this->price = $price;
         $this->applyDate = $applyDate;
         $this->type = $type;
     }
 
-    public function percent() : float
+    /**
+     * @return float
+     */
+    public function price() : float
     {
-        return $this->percent;
+        return $this->price;
     }
 
+    /**
+     * @return \DateTimeInterface
+     */
     public function applyDate() : \DateTimeInterface
     {
         return $this->applyDate;
     }
 
+    /**
+     * @return int
+     */
     public function type()
     {
         return $this->type;

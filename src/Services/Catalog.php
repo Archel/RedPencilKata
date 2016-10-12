@@ -7,6 +7,7 @@ use Archel\RedPencilKata\Entities\Product;
 use Archel\RedPencilKata\Factories\GoodsFactory;
 use Archel\RedPencilKata\Provider\Interfaces\DateProvider;
 use Archel\RedPencilKata\Services\Interfaces\PriceCalculator;
+use Archel\RedPencilKata\Services\Interfaces\PromotionChecker;
 
 /**
  * Class Catalog
@@ -25,6 +26,11 @@ class Catalog
     protected $priceCalculator;
 
     /**
+     * @var PromotionChecker
+     */
+    protected $promotionChecker;
+
+    /**
      * @var array
      */
     protected $products;
@@ -41,12 +47,13 @@ class Catalog
      * @param PriceCalculator $priceCalculator
      * @param DateProvider $dateProvider
      */
-    public function __construct(GoodsFactory $goodsFactory, PriceCalculator $priceCalculator, DateProvider $dateProvider)
+    public function __construct(GoodsFactory $goodsFactory, PriceCalculator $priceCalculator, DateProvider $dateProvider, PromotionChecker $promotionChecker)
     {
         $this->goodsFactory = $goodsFactory;
         $this->priceCalculator = $priceCalculator;
         $this->products = [];
         $this->dateProvider = $dateProvider;
+        $this->promotionChecker = $promotionChecker;
     }
 
     /**
@@ -69,5 +76,10 @@ class Catalog
     public function calculatePrice(Product $product) : float
     {
         return $this->priceCalculator->calculate($product);
+    }
+
+    public function isProductPromoted(Product $product) : bool
+    {
+        return $this->promotionChecker->isPromoted($product);
     }
 }

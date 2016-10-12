@@ -3,14 +3,8 @@
 namespace Archel\RedPencilKata\Tests;
 
 use Archel\RedPencilKata\Entities\Product;
-use Archel\RedPencilKata\Factories\CatalogFactory;
-use Archel\RedPencilKata\Factories\PriceReductionFactory;
-use Archel\RedPencilKata\Factories\ProductFactory;
-use Archel\RedPencilKata\Provider\DateTimeProvider;
+use Archel\RedPencilKata\Factories\CatalogTestFactory;
 use Archel\RedPencilKata\Services\Catalog;
-use Archel\RedPencilKata\Services\Interfaces\PriceCalculator;
-use Archel\RedPencilKata\Services\ProductPromotionChecker;
-use Archel\RedPencilKata\Services\PromotionPriceCalculator;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -31,7 +25,7 @@ class ProductTest extends TestCase
 
     public function setUp()
     {
-        $catalogFactory = new CatalogFactory();
+        $catalogFactory = new CatalogTestFactory();
         $this->catalog = $catalogFactory->make();
         $this->product = $this->catalog->addProductToCatalog('red pencil', 3);
     }
@@ -59,6 +53,7 @@ class ProductTest extends TestCase
      */
     public function productIsPromoted()
     {
-        $this->assertEquals($this->catalog->isPromoted(), true);
+        $this->product->changePrice(2.50);
+        $this->assertEquals($this->catalog->isProductPromoted($this->product), true);
     }
 }

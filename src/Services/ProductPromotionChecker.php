@@ -3,6 +3,7 @@
 namespace Archel\RedPencilKata\Services;
 
 
+use Archel\RedPencilKata\Entities\PriceChange;
 use Archel\RedPencilKata\Entities\Product;
 use Archel\RedPencilKata\Provider\Interfaces\DateProvider;
 use Archel\RedPencilKata\Services\Interfaces\PromotionChecker;
@@ -20,7 +21,7 @@ class ProductPromotionChecker implements PromotionChecker
      */
     const MAX_PERCENT = 30;
     const MIN_PERCENT = 5;
-    const DAYS_FOR_PRICE_STABLE = 30;
+    const DAYS_FOR_STABLE_PRICE = 30;
 
     /**
      * @var DateProvider
@@ -45,10 +46,27 @@ class ProductPromotionChecker implements PromotionChecker
         $priceHistory = $product->priceHistory();
         $lastPriceChange = current($priceHistory);
 
-        if(!empty($lastPriceChange)) {
-            $date = $lastPriceChange->applyDate();
-            $type = $lastPriceChange->type();
-            $price = $lastPriceChange->price();
+        if(empty($lastPriceChange)) {
+            return false;
         }
+
+        $now = $this->dateProvider->now();
+        $date = $lastPriceChange->applyDate();
+        $type = $lastPriceChange->type();
+        $price = $lastPriceChange->price();
+
+        if($type !== PriceChange::REDUCE) {
+            return false;
+        }
+
+        $percent = (abs($price - $product->price()) / $price) * 100;
+
+        $days = $now->diff($date)->format("%a");
+        
+        if($percent >= static::MIN_PERCENT && $percent <= self::MAX_PERCENT && $days >= self::DAYS_FOR_STABLE_PRICE) {
+            return true;
+        }
+
+        return false;
     }
 }
